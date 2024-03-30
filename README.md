@@ -1,7 +1,3 @@
-### ENGINE
-
-Container App and DevOps CI/CD Tools.
-
 #### Installation
 
 ```bash
