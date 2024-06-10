@@ -1,0 +1,8 @@
+name = "lab"
+uuid = "be61fca6-ec01-4508-a2ed-a264435ce29a"
+authors = ["fcoverdugo <fcoverdugoa@underpost.net>"]
+version = "0.1.0"
+deps = [
+  "NIfTI",
+  "DataFrames",
+]
