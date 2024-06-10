@@ -6,7 +6,6 @@
 ]
 
 pkg > generate MyProject
-
 ```
 
 #### install package
@@ -23,5 +22,7 @@ Pkg.resolve()
 - https://docs.julialang.org/en/v1/
 
 - https://www.kaggle.com/datasets/ilknuricke/neurohackinginrimages?resource=download
+
+- https://wtclarke.github.io/mrs_nifti_standard/index.html
 
 - https://github.com/JuliaNeuroscience/NIfTI.jl
