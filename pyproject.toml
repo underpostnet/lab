@@ -1,0 +1,17 @@
+[build-system]
+requires = []
+
+[project]
+name = "data-lab"
+authors = [{ name = "Francisco", email = "fcoverdugoa@underpost.net" }]
+readme = "README.md"
+requires-python = ">=3.12.6"
+classifiers = ["License :: OSI Approved :: MIT License"]
+dynamic = ["version", "description"]
+
+dependencies = ["transformers", "tensorflow", "torch"]
+
+[project.optional-dependencies]
+test = []
+
+deploy = []

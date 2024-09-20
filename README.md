@@ -26,3 +26,12 @@ Pkg.resolve()
 - https://wtclarke.github.io/mrs_nifti_standard/index.html
 
 - https://github.com/JuliaNeuroscience/NIfTI.jl
+
+#### install gpt2
+
+```bash
+python3 -m pip install -U pip setuptools
+
+python3 -m pip install .
+
+```

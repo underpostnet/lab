@@ -97,5 +97,8 @@
   },
   "[julia]": {
     "editor.defaultFormatter": "julialang.language-julia"
+  },
+  "[toml]": {
+    "editor.defaultFormatter": "tamasfe.even-better-toml"
   }
 }
