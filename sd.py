@@ -7,7 +7,10 @@ import torch
 pipe = StableDiffusionPipeline.from_pretrained(
     "CompVis/stable-diffusion-v1-4", variant="fp16", torch_dtype=torch.float16
 )
-pipe.to("cuda")
+
+# TODO: Torch not compiled with CUDA enabled
+# pipe.to("cuda")
+
 prompt = "A cat took a fish and running in a market"
 scheduler = DDPMScheduler(
     beta_start=0.00085, beta_end=0.012, beta_schedule="scaled_linear"

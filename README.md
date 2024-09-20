@@ -27,11 +27,14 @@ Pkg.resolve()
 
 - https://github.com/JuliaNeuroscience/NIfTI.jl
 
-#### install gpt2
+#### install
 
 ```bash
-python3 -m pip install -U pip setuptools
+python3 -m pip install --user -r requirements.txt
+```
 
-python3 -m pip install .
+#### export requirements
 
+```bash
+python3 -m pip freeze > requirements.txt
 ```
