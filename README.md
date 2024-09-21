@@ -38,3 +38,9 @@ python3 -m pip install --user -r requirements.txt
 ```bash
 python3 -m pip freeze > requirements.txt
 ```
+
+### uninstall
+
+```bash
+python3 -m pip uninstall -r requirements.txt -y
+```

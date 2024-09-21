@@ -9,7 +9,7 @@ pipe = StableDiffusionPipeline.from_pretrained(
 )
 
 # TODO: Torch not compiled with CUDA enabled
-# pipe.to("cuda")
+pipe.to("cuda")
 
 prompt = "A cat took a fish and running in a market"
 scheduler = DDPMScheduler(
