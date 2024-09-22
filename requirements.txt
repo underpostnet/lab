@@ -31,7 +31,6 @@ namex==0.0.8
 networkx==3.3
 numpy==1.26.4
 nvidia-cuda-runtime-cu12==12.6.68
-nvidia-pyindex==1.0.9
 opt-einsum==3.3.0
 optree==0.12.1
 packaging==24.1
