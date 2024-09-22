@@ -33,13 +33,17 @@ Pkg.resolve()
 python3 -m pip install --user -r requirements.txt
 ```
 
+```bash
+conda install cudatoolkit
+```
+
 #### export requirements
 
 ```bash
 python3 -m pip freeze > requirements.txt
 ```
 
-### uninstall
+#### uninstall
 
 ```bash
 python3 -m pip uninstall -r requirements.txt -y
