@@ -17,6 +17,7 @@ dependencies = [
     "torchvision",
     "diffusers",
     "nvidia-cuda-runtime-cu11",
+    "torchrec-nightly",
 ]
 
 [project.optional-dependencies]
