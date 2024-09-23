@@ -23,4 +23,4 @@ gen_tokens = model.generate(
     max_length=100,
 )
 
-print("output: ", tokenizer.batch_decode(gen_tokens)[0])
+print("output: <output>", tokenizer.batch_decode(gen_tokens)[0], "</output>")
