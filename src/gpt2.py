@@ -20,7 +20,8 @@ gen_tokens = model.generate(
     input_ids,
     do_sample=True,
     temperature=0.7,
-    max_length=100,
+    max_length=10000,
 )
 
-print("output: <output>", tokenizer.batch_decode(gen_tokens)[0], "</output>")
+for token in tokenizer.batch_decode(gen_tokens):
+    print("output: <output>", token, "</output>")

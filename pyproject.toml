@@ -19,6 +19,9 @@ dependencies = [
     "nvidia-cuda-runtime-cu11",
     "torchrec-nightly",
     "matplotlib",
+    "scikit-learn",
+    "numpy",
+    "pandas",
 ]
 
 [project.optional-dependencies]
