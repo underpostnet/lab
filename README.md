@@ -33,6 +33,14 @@ Pkg.resolve()
 python3 -m pip install --user -r requirements.txt
 ```
 
+```bash
+conda install --yes --file requirements.txt
+```
+
+```bash
+conda env create -f environment.yaml
+```
+
 Required CUDA 11.8
 
 - https://developer.nvidia.com/cuda-11-8-0-download-archive
@@ -81,6 +89,14 @@ conda install pytorch torchvision torchaudio pytorch-cuda=11.8 -c pytorch -c nvi
 
 ```bash
 python3 -m pip freeze > requirements.txt
+```
+
+```bash
+conda list -e > requirements.txt
+```
+
+```bash
+conda create --name <env> --file requirements.txt
 ```
 
 #### uninstall

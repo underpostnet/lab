@@ -18,6 +18,7 @@ dependencies = [
     "diffusers",
     "nvidia-cuda-runtime-cu11",
     "torchrec-nightly",
+    "matplotlib",
 ]
 
 [project.optional-dependencies]
