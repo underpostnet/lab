@@ -45,7 +45,7 @@ Required CUDA 11.8
 
 - https://developer.nvidia.com/cuda-11-8-0-download-archive
 
-#### Instal things separately and activating tensorflow-gpu
+#### install things separately and activating tensorflow-gpu
 
 ```bash
 conda install -c anaconda cudatoolkit
@@ -75,7 +75,7 @@ conda config --append channels conda-forge
 conda config --append channels nvidia
 ```
 
-#### Instal PyTorch (GPU version compatible with CUDA version)
+#### install PyTorch (GPU version compatible with CUDA version)
 
 ```bash
 nvcc --version
