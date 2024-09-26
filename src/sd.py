@@ -38,7 +38,7 @@ image = pipe(
 ).images[0]
 image.save(path + "/ouput.png")
 
-if sys.argv[2] and sys.argv[2] == "show":
+if index_exists(sys.argv, 2) and sys.argv[2] == "show":
     img = mpimg.imread(path + "/ouput.png")
 
     imgplot = plt.imshow(img)
