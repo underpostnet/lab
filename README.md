@@ -112,3 +112,62 @@ conda remove pytorch torchvision torchaudio cudatoolkit
 ```bash
 conda clean --all
 ```
+
+#### python virtual environment
+
+```bash
+apt-get update
+```
+
+```bash
+apt install python3.12-venv
+```
+
+```bash
+python -m venv my-env
+```
+
+```bash
+source ./my-env/bin/activate
+```
+
+```bash
+./my-env/bin/pip install -r requirements.txt
+```
+
+### manage versions
+
+config apt
+
+```bash
+apt install software-properties-common
+sudo apt-get install python3-launchpadlib
+add-apt-repository ppa:deadsnakes/ppa
+apt update
+```
+
+list python versions
+
+```bash
+cd /usr/bin
+ls *python*
+```
+
+install python version
+
+```bash
+sudo apt-get install python3.X
+```
+
+set python version
+
+```bash
+virtualenv --python="/usr/bin/python3.11" "/path/to/new/my-env/"
+```
+
+list apt repositories
+
+```bash
+cd /etc/apt/sources.list.d
+ls -a
+```
