@@ -149,8 +149,7 @@ apt update
 list python versions
 
 ```bash
-cd /usr/bin
-ls *python*
+cd /usr/bin && ls *python*
 ```
 
 install python version
@@ -163,11 +162,4 @@ set python version
 
 ```bash
 virtualenv --python="/usr/bin/python3.11" "/path/to/new/my-env/"
-```
-
-list apt repositories
-
-```bash
-cd /etc/apt/sources.list.d
-ls -a
 ```
