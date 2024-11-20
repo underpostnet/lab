@@ -18,9 +18,6 @@ print("Total rows:", total_rows)
 print("Columns:", df.columns)
 print("----------------------------------------------------------------")
 print("----------------------------------------------------------------")
-# print("Row 0:", df.iloc[0])
-
-# date format: 2017/04/30
 
 
 query = "id INT(4) NOT NULL PRIMARY KEY AUTO_INCREMENT,"
@@ -32,6 +29,7 @@ for column in df.columns:
     # print(df.columns[columnIndex], df.iloc[0][columnIndex])
     value = df.iloc[0][columnIndex]
     try:
+        # date format: 2017/04/30
         testDate = value.rstrip().split("/")
 
         # year, month, day, hour, minute, second, microsecond, and tzinfo
@@ -72,38 +70,62 @@ print(query)
 
 
 mydb = mysql.connector.connect(
-    host="127.0.0.1",
-    # user="",
-    # password="",
+    host="",
+    user="",
+    password="",
     # database=db_name
 )
-
 print(mydb)
-
 mycursor = mydb.cursor()
 
-# try:
-#     mycursor.execute(createDBquery)
-#     print("created table successfully")
-# except:
-#     print("table already created")
+
+try:
+    mycursor.execute(createDBquery)
+    print("created db successfully")
+except:
+    print("db already created")
+
+mydb = mysql.connector.connect(host="", user="", password="", database=db_name)
+print(mydb)
+mycursor = mydb.cursor()
+
+try:
+    mycursor.execute(query)
+    print("created table successfully")
+except:
+    print("table already created")
 
 df = df.astype("object")  # to native python array
 
+
+def formatter(value):
+    try:
+        return str(float(value))
+    except Exception as e:
+        return "'" + str(value) + "'"
+
+
+errorRows = 0
+successRows = 0
 for index in range(0, len(df)):
     sql = (
         "INSERT INTO "
-        + db_name
-        + " (id,"
+        + table_name
+        + " ("
         + ",".join(df.columns)
-        + ") VALUES (null,"
-        + ",".join(map(str, df.iloc[index].tolist()))
+        + ") VALUES ("
+        + ",".join(map(formatter, df.iloc[index].tolist()))
         + ")"
     )
-    if index == 0:
-        print(sql)
-    else:
-        break
-    # mycursor.execute(sql)
-    # mydb.commit()
-    # print(mycursor.rowcount, "record inserted.")
+    # if index == 0:
+    #     print(sql)
+    # else:
+    #     break
+    try:
+        mycursor.execute(sql)
+        mydb.commit()
+        successRows += 1
+        print(mycursor.rowcount, "record inserted. # " + str(successRows))
+    except:
+        errorRows += 1
+        print("record failed to insert. # " + str(errorRows))
