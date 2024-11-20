@@ -72,9 +72,9 @@ print(query)
 
 
 mydb = mysql.connector.connect(
-    host="",
-    user="",
-    password="",
+    host="127.0.0.1",
+    # user="",
+    # password="",
     # database=db_name
 )
 
@@ -88,6 +88,8 @@ mycursor = mydb.cursor()
 # except:
 #     print("table already created")
 
+df = df.astype("object")  # to native python array
+
 for index in range(0, len(df)):
     sql = (
         "INSERT INTO "
@@ -95,7 +97,7 @@ for index in range(0, len(df)):
         + " (id,"
         + ",".join(df.columns)
         + ") VALUES (null,"
-        + ",".join(df.iloc[index])
+        + ",".join(map(str, df.iloc[index].tolist()))
         + ")"
     )
     if index == 0:
