@@ -29,6 +29,8 @@ Pkg.resolve()
 
 #### install
 
+https://docs.anaconda.com/miniconda/install/#quick-command-line-install
+
 ```bash
 python3 -m pip install --user -r requirements.txt
 ```
@@ -162,4 +164,10 @@ set python version
 
 ```bash
 virtualenv --python="/usr/bin/python3.11" "/path/to/new/my-env/"
+```
+
+run script
+
+```bash
+./my-env/bin/python <path-to-script>
 ```

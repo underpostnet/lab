@@ -1,21 +1,27 @@
 import pandas as pd
 import datetime as datetime
+import sys
+import mysql.connector
 
-# sudo apt-get install gnumeric
+print(sys.argv)
 
-# ssconvert '/home/kali-user/Downloads/Mortalidades 2014.xlsx' /dd/lab/Mortalidades-2014.csv
+df = pd.read_csv(sys.argv[1])
 
-df = pd.read_csv("../data/sernapesca/Mortalidades-2014.csv")
+db_name = sys.argv[2]
+
+table_name = sys.argv[3]
 
 total_rows = len(df)
 
+print("Table:", table_name)
 print("Total rows:", total_rows)
 print("Columns:", df.columns)
+print("----------------------------------------------------------------")
+print("----------------------------------------------------------------")
 # print("Row 0:", df.iloc[0])
 
 # date format: 2017/04/30
 
-table_name = "mortalidades_2014"
 
 query = "id INT(4) NOT NULL PRIMARY KEY AUTO_INCREMENT,"
 
@@ -42,7 +48,7 @@ for column in df.columns:
             testFloat = float(value)
             query += " " + column + " FLOAT(53),"
         except Exception as e:
-            query += " " + column + " VARCHAR(10000),"
+            query += " " + column + " VARCHAR(500),"
 
 
 # remove last come
@@ -58,4 +64,44 @@ query = (
     )"""
 )
 
+createDBquery = "CREATE DATABASE " + db_name + ";"
+query = query + ";"
+
+print(createDBquery)
 print(query)
+
+
+mydb = mysql.connector.connect(
+    host="",
+    user="",
+    password="",
+    # database=db_name
+)
+
+print(mydb)
+
+mycursor = mydb.cursor()
+
+# try:
+#     mycursor.execute(createDBquery)
+#     print("created table successfully")
+# except:
+#     print("table already created")
+
+for index in range(0, len(df)):
+    sql = (
+        "INSERT INTO "
+        + db_name
+        + " (id,"
+        + ",".join(df.columns)
+        + ") VALUES (null,"
+        + ",".join(df.iloc[index])
+        + ")"
+    )
+    if index == 0:
+        print(sql)
+    else:
+        break
+    # mycursor.execute(sql)
+    # mydb.commit()
+    # print(mycursor.rowcount, "record inserted.")
