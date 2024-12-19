@@ -13,7 +13,7 @@ df_dummy = np.empty((df.shape[0], 0))
 df_columns = []
 
 for column in df.columns:
-    _df = pd.get_dummies(df[column], prefix=column, drop_first=True).astype(int)
+    _df = pd.get_dummies(df[column], prefix=column).astype(int)  # , drop_first=True
     df_columns = df_columns + _df.columns.to_list()
     print(_df)
     df_dummy = np.concatenate((df_dummy, _df), axis=1)
