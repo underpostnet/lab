@@ -27,12 +27,12 @@ prompt = (
     else sys.argv[1]
 )
 
-scheduler = DDPMScheduler(
-    beta_start=0.00085, beta_end=0.012, beta_schedule="scaled_linear"
-)
+# scheduler = DDPMScheduler(
+#     beta_start=0.00085, beta_end=0.012, beta_schedule="scaled_linear"
+# )
 image = pipe(
     prompt,
-    scheduler=scheduler,
+    #    scheduler=scheduler,
     num_inference_steps=30,
     guidance_scale=7.5,
 ).images[0]
