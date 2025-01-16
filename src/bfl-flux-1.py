@@ -47,6 +47,8 @@ def wait_until_enough_gpu_memory(min_memory_available, max_retries=10, sleep_tim
 clear_gpu_memory()
 wait_until_enough_gpu_memory(min_memory_available)
 
+print("cuda device_count:", torch.cuda.device_count())
+# exit()
 
 from diffusers import FluxPipeline
 from huggingface_hub import login
