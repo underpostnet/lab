@@ -1,10 +1,13 @@
 import os
 from dotenv import load_dotenv
 
+min_memory_available = 3.6 * 1024 * 1024 * 1024
 load_dotenv()
 
-min_memory_available = 3.5 * 1024 * 1024 * 1024  # 2GB
-
+os.environ["TF_ENABLE_ONEDNN_OPTS"] = "0"
+os.environ["CUDA_VISIBLE_DEVICES"] = (
+    "0, 1, 2, 3, 4, 5, 6"  # nvidia-smi -> for list CUDA_VISIBLE_DEVICES id's
+)
 os.environ["PYTORCH_CUDA_ALLOC_CONF"] = "max_split_size_mb:" + str(
     min_memory_available / (1024 * 1024)
 )
@@ -70,12 +73,12 @@ pipe = pipe.to("cuda")
 prompt = "top view plain game asset pixel art, retro, 8-bit, pokemon gba rom image, of a cyber cowboy sprite"
 image = pipe(
     prompt,
-    height=512,
-    width=512,
-    guidance_scale=3.5,
-    num_inference_steps=50,
-    max_sequence_length=512,
-    generator=torch.Generator("cpu").manual_seed(0),
+    height=50,
+    width=50,
+    guidance_scale=1,
+    num_inference_steps=1,
+    # max_sequence_length=512,
+    # generator=torch.Generator("cpu").manual_seed(0),
 ).images[0]
 
 image.save("flux-dev.png")
