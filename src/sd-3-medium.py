@@ -3,7 +3,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-min_memory_available = 3.5 * 1024 * 1024 * 1024  # 2GB
+min_memory_available = 3.6 * 1024 * 1024 * 1024
 
 os.environ["PYTORCH_CUDA_ALLOC_CONF"] = "max_split_size_mb:" + str(
     min_memory_available / (1024 * 1024)
@@ -51,6 +51,7 @@ from diffusers import StableDiffusion3Pipeline
 pipe = StableDiffusion3Pipeline.from_pretrained(
     "stabilityai/stable-diffusion-3-medium-diffusers", torch_dtype=torch.float16
 )
+pipe.enable_model_cpu_offload()
 pipe = pipe.to("cuda")
 
 # num_inference_steps: between 20 and 50 (detailed)
@@ -59,8 +60,8 @@ pipe = pipe.to("cuda")
 image = pipe(
     "top view plain game asset pixel art, retro, 8-bit, pokemon gba rom image, of a cyber cowboy sprite",
     negative_prompt="",  # without this concepts
-    num_inference_steps=28,
-    guidance_scale=5.0,
+    num_inference_steps=20,
+    guidance_scale=2.0,
 ).images[0]
 
 image.save("test.jpeg")
