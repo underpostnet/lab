@@ -14,7 +14,7 @@ imagen = genai.ImageGenerationModel("models/gemini-1.5-flash")
 
 result = imagen.generate_images(
     prompt="Fuzzy bunnies in my kitchen",
-    number_of_images=4,
+    number_of_images=1,
     safety_filter_level="block_only_high",
     person_generation="allow_adult",
     aspect_ratio="3:4",
