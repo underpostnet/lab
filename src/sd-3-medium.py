@@ -54,8 +54,6 @@ pipe = StableDiffusion3Pipeline.from_pretrained(
 pipe.enable_model_cpu_offload()
 pipe = pipe.to("cuda")
 
-# num_inference_steps: between 20 and 50 (detailed)
-# guidance_scale: between 7 and 8.5 (literal prompt)
 
 image = pipe(
     "top view plain game asset pixel art, retro, 8-bit, pokemon gba rom image, of a cyber cowboy sprite",

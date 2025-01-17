@@ -50,27 +50,51 @@ Required CUDA 11.8
 #### install things separately and activating tensorflow-gpu
 
 ```bash
-conda install -c anaconda cudatoolkit
-```
-
-```bash
-conda create -n tf-gpu tensorflow-gpu
-```
-
-```bash
-conda activate tf-gpu
-```
-
-```bash
 conda create --name cuda_env python=3.9
 ```
 
 ```bash
-conda remove -n cuda_env --all
+conda activate cuda_env
 ```
 
 ```bash
-conda activate cuda_env
+conda install tensorflow-gpu
+```
+
+```bash
+conda install -c anaconda cudatoolkit
+```
+
+```bash
+conda install pytorch torchvision torchaudio pytorch-cuda=11.8 -c pytorch -c nvidia
+```
+
+```bash
+conda install python-dotenv
+```
+
+```bash
+conda install pynvml
+```
+
+```bash
+conda install huggingface_hub
+```
+
+```bash
+conda install -c conda-forge diffusers
+```
+
+```bash
+conda install numpy==1.23.4
+```
+
+```bash
+conda install accelerate
+```
+
+```bash
+conda remove -n cuda_env --all
 ```
 
 ```bash
@@ -85,14 +109,14 @@ conda config --append channels nvidia
 conda config --add channels nvidia
 ```
 
-#### install PyTorch (GPU version compatible with CUDA version)
+#### check GPU version compatible with CUDA version
 
 ```bash
 nvcc --version
 ```
 
 ```bash
-conda install pytorch torchvision torchaudio pytorch-cuda=11.8 -c pytorch -c nvidia
+nvidia-smi ; nvidia-smi --version
 ```
 
 #### export requirements
