@@ -54,33 +54,38 @@ from diffusers import FluxPipeline
 from huggingface_hub import login
 
 # pip install -U "huggingface_hub[cli]"
-# pip install git+https://github.com/huggingface/diffusers.git
-# pip install transformers[sentencepiece]
+# pip install -U git+https://github.com/huggingface/diffusers.git
+# pip install -U transformers[sentencepiece]
+# pip install -U numpy==1.23.4
+# pip install -U protobuf==3.20
+# pip install -U accelerate
+# pip install -U sentencepiece
 # https://huggingface.co/settings/tokens
-
+# https://stackoverflow.com/questions/78899566/issue-loading-fluxpipeline-components
 # https://huggingface.co/black-forest-labs/FLUX.1-dev
 
 
 login(token=os.getenv("HUGGINGFACE_API_KEY"))
 
 pipe = FluxPipeline.from_pretrained(
-    "black-forest-labs/FLUX.1-dev", torch_dtype=torch.bfloat16
+    # "black-forest-labs/FLUX.1-dev", torch_dtype=torch.bfloat16
+    "black-forest-labs/FLUX.1-dev", torch_dtype=torch.float32
 )
 
-pipe.enable_model_cpu_offload()  # save some VRAM by offloading the model to CPU. Remove this if you have enough GPU power
+# .to(torch.device("cuda"))
+
+# pipe.enable_model_cpu_offload()  # save some VRAM by offloading the model to CPU. Remove this if you have enough GPU power
 
 # pipe = torch.tensor([1, 2, 3])
 pipe = pipe.to("cuda")
 
 prompt = "top view plain game asset pixel art, retro, 8-bit, pokemon gba rom image, of a cyber cowboy sprite"
 image = pipe(
-    prompt,
-    height=50,
-    width=50,
-    guidance_scale=1,
-    num_inference_steps=1,
-    # max_sequence_length=512,
-    # generator=torch.Generator("cpu").manual_seed(0),
+   prompt=prompt,
+    height=512, width=512,
+    guidance_scale=3.5, num_inference_steps=5, max_sequence_length=256,
+    output_type="pil", num_images_per_prompt=1,
+    generator=torch.Generator("cpu").manual_seed(0)
 ).images[0]
 
 image.save("flux-dev.png")

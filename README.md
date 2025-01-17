@@ -62,7 +62,11 @@ conda activate tf-gpu
 ```
 
 ```bash
-conda create --name cuda_env
+conda create --name cuda_env python=3.9
+```
+
+```bash
+conda remove -n cuda_env --all
 ```
 
 ```bash
@@ -71,10 +75,14 @@ conda activate cuda_env
 
 ```bash
 conda config --append channels conda-forge
+# or
+conda config --add channels conda-forge
 ```
 
 ```bash
 conda config --append channels nvidia
+# or
+conda config --add channels nvidia
 ```
 
 #### install PyTorch (GPU version compatible with CUDA version)

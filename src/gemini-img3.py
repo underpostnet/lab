@@ -5,7 +5,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 # ./my-env/bin/pip install -U git+https://github.com/google-gemini/generative-ai-python@imagen
-# ./my-env/bin/pip install -U install python-dotenv
+# ./my-env/bin/pip install -U python-dotenv
 # ./my-env/bin/python ./src/gemini-img3.py
 
 genai.configure(api_key=os.getenv("GOOGLE_API_KEY"))
