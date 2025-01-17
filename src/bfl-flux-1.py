@@ -1,11 +1,11 @@
 import os
 from dotenv import load_dotenv
 
-min_memory_available = 3.7 * 1024 * 1024 * 1024
+min_memory_available = 3.8 * 1024 * 1024 * 1024
 load_dotenv()
 
-# os.environ["TF_ENABLE_ONEDNN_OPTS"] = "0"
-# os.environ["UNSLOTH_IS_PRESENT"] = "1"
+os.environ["TF_ENABLE_ONEDNN_OPTS"] = "1"
+os.environ["UNSLOTH_IS_PRESENT"] = "1"
 os.environ["CUDA_VISIBLE_DEVICES"] = (
     "0, 1, 2, 3, 4, 5, 6"  # nvidia-smi -> for list CUDA_VISIBLE_DEVICES id's
 )
@@ -76,7 +76,9 @@ from diffusers import FluxPipeline
 pipe = FluxPipeline.from_pretrained(
     # "black-forest-labs/FLUX.1-dev", torch_dtype=torch.bfloat16
     "black-forest-labs/FLUX.1-dev",
-    torch_dtype=torch.float32,
+    torch_dtype=torch.float16,
+    # "black-forest-labs/FLUX.1-dev",
+    # torch_dtype=torch.float32,
 )
 
 # .to(torch.device("cuda"))
@@ -92,11 +94,11 @@ image = pipe(
     height=256,
     width=256,
     guidance_scale=3.5,
-    # num_inference_steps=5,
+    num_inference_steps=5,
     # max_sequence_length=256,
     # output_type="pil",
     num_images_per_prompt=1,
-    # generator=torch.Generator("cpu").manual_seed(0),
+    generator=torch.Generator("cuda").manual_seed(0),
 ).images[0]
 
 image.save("flux-dev.png")

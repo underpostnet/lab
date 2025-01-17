@@ -78,6 +78,10 @@ conda install pynvml
 ```
 
 ```bash
+conda install sentencepiece
+```
+
+```bash
 conda install huggingface_hub
 ```
 
