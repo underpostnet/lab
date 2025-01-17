@@ -1,11 +1,11 @@
 import os
 from dotenv import load_dotenv
 
-min_memory_available = 3.6 * 1024 * 1024 * 1024
+min_memory_available = 3.7 * 1024 * 1024 * 1024
 load_dotenv()
 
-os.environ["TF_ENABLE_ONEDNN_OPTS"] = "0"
-os.environ["UNSLOTH_IS_PRESENT"] = "1"
+# os.environ["TF_ENABLE_ONEDNN_OPTS"] = "0"
+# os.environ["UNSLOTH_IS_PRESENT"] = "1"
 os.environ["CUDA_VISIBLE_DEVICES"] = (
     "0, 1, 2, 3, 4, 5, 6"  # nvidia-smi -> for list CUDA_VISIBLE_DEVICES id's
 )
@@ -89,10 +89,10 @@ pipe = pipe.to("cuda")
 prompt = "top view plain game asset pixel art, retro, 8-bit, pokemon gba rom image, of a cyber cowboy sprite"
 image = pipe(
     prompt=prompt,
-    height=512,
-    width=512,
+    height=256,
+    width=256,
     guidance_scale=3.5,
-    num_inference_steps=5,
+    # num_inference_steps=5,
     # max_sequence_length=256,
     # output_type="pil",
     num_images_per_prompt=1,
