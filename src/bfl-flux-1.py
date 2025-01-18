@@ -1,7 +1,7 @@
 import os
 from dotenv import load_dotenv
 
-min_memory_available = 3.8 * 1024 * 1024 * 1024
+min_memory_available = 7.5 * 1024 * 1024 * 1024
 load_dotenv()
 
 os.environ["TF_ENABLE_ONEDNN_OPTS"] = "1"
@@ -16,33 +16,7 @@ os.environ["PYTORCH_CUDA_ALLOC_CONF"] = "max_split_size_mb:" + str(
 print("PYTORCH_CUDA_ALLOC_CONF:", os.environ["PYTORCH_CUDA_ALLOC_CONF"])
 
 import torch
-import time
-import gc
-from pynvml import nvmlInit, nvmlDeviceGetHandleByIndex, nvmlDeviceGetMemoryInfo
-
-
-def clear_gpu_memory():
-    torch.cuda.empty_cache()
-    gc.collect()
-    # del variables
-
-
-def wait_until_enough_gpu_memory(min_memory_available, max_retries=10, sleep_time=5):
-    nvmlInit()
-    handle = nvmlDeviceGetHandleByIndex(torch.cuda.current_device())
-
-    for _ in range(max_retries):
-        info = nvmlDeviceGetMemoryInfo(handle)
-        if info.free >= min_memory_available:
-            break
-        print(
-            f"Waiting for {min_memory_available} bytes of free GPU memory. Retrying in {sleep_time} seconds..."
-        )
-        time.sleep(sleep_time)
-    else:
-        raise RuntimeError(
-            f"Failed to acquire {min_memory_available} bytes of free GPU memory after {max_retries} retries."
-        )
+from utilTorch import clear_gpu_memory, wait_until_enough_gpu_memory
 
 
 clear_gpu_memory()
@@ -72,13 +46,16 @@ from diffusers import FluxPipeline
 # guidance_scale: between 7 and 8.5 (literal prompt)
 # pytorch -> model framework
 # tensorflow -> deployment tools
+model_id = "black-forest-labs/FLUX.1-dev"
+
+print("load model pretrained", model_id)
 
 pipe = FluxPipeline.from_pretrained(
     # "black-forest-labs/FLUX.1-dev", torch_dtype=torch.bfloat16
-    "black-forest-labs/FLUX.1-dev",
-    torch_dtype=torch.float16,
+    model_id,
+    torch_dtype=torch.float32,
     # "black-forest-labs/FLUX.1-dev",
-    # torch_dtype=torch.float32,
+    # torch_dtype=torch.float16,
 )
 
 # .to(torch.device("cuda"))
@@ -89,6 +66,9 @@ pipe.enable_model_cpu_offload()  # save some VRAM by offloading the model to CPU
 pipe = pipe.to("cuda")
 
 prompt = "top view plain game asset pixel art, retro, 8-bit, pokemon gba rom image, of a cyber cowboy sprite"
+
+print("exec pipe prompt:", prompt)
+
 image = pipe(
     prompt=prompt,
     height=256,
