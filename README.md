@@ -63,10 +63,6 @@ conda install pytorch torchvision torchaudio pytorch-cuda=11.8 -c pytorch -c nvi
 conda install -c conda-forge diffusers
 ```
 
-```bash
-conda remove -n cuda_env --all
-```
-
 #### channels
 
 ```bash
@@ -125,6 +121,12 @@ conda remove pytorch torchvision torchaudio cudatoolkit
 
 ```bash
 conda clean --all
+```
+
+#### remove env
+
+```bash
+conda remove -n cuda_env --all
 ```
 
 #### python virtual environment
