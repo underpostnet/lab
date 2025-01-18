@@ -21,6 +21,8 @@ Pkg.resolve()
 
 - https://docs.conda.io/projects/conda/en/4.6.0/index.html
 
+- https://docs.anaconda.com/miniconda/install/#quick-command-line-install
+
 - https://docs.julialang.org/en/v1/
 
 - https://www.kaggle.com/datasets/ilknuricke/neurohackinginrimages?resource=download
@@ -28,24 +30,6 @@ Pkg.resolve()
 - https://wtclarke.github.io/mrs_nifti_standard/index.html
 
 - https://github.com/JuliaNeuroscience/NIfTI.jl
-
-#### install
-
-https://docs.anaconda.com/miniconda/install/#quick-command-line-install
-
-```bash
-python3 -m pip install --user -r requirements.txt
-```
-
-```bash
-conda install --yes --file requirements.txt
-```
-
-```bash
-conda env create -f environment.yaml
-```
-
-Required CUDA 11.8
 
 - https://developer.nvidia.com/cuda-11-8-0-download-archive
 
@@ -60,7 +44,11 @@ conda activate cuda_env
 ```
 
 ```bash
-conda install tensorflow-gpu
+python3 -m pip install --user -r requirements.txt
+# or
+conda install --yes --file requirements.txt
+# or
+conda env create -f environment.yaml
 ```
 
 ```bash
@@ -72,40 +60,14 @@ conda install pytorch torchvision torchaudio pytorch-cuda=11.8 -c pytorch -c nvi
 ```
 
 ```bash
-conda install python-dotenv
-```
-
-```bash
-conda install pynvml
-```
-
-```bash
-conda install sentencepiece
-```
-
-```bash
-conda install huggingface_hub
-```
-
-```bash
 conda install -c conda-forge diffusers
-```
-
-```bash
-conda install transformers
-```
-
-```bash
-conda install numpy==1.23.4
-```
-
-```bash
-conda install accelerate
 ```
 
 ```bash
 conda remove -n cuda_env --all
 ```
+
+#### channels
 
 ```bash
 conda config --append channels conda-forge
@@ -118,6 +80,8 @@ conda config --append channels nvidia
 # or
 conda config --add channels nvidia
 ```
+
+#### list env
 
 ```bash
 conda info --envs
