@@ -1,22 +1,3 @@
-<!-- julia main.js args -->
-
-#### generate project
-
-```
-]
-
-pkg > generate MyProject
-```
-
-#### install package
-
-```julia
-using Pkg
-
-Pkg.resolve()
-
-```
-
 #### docs
 
 - https://docs.conda.io/projects/conda/en/4.6.0/index.html
@@ -44,11 +25,7 @@ conda activate cuda_env
 ```
 
 ```bash
-python3 -m pip install --user -r requirements.txt
-# or
-conda install --yes --file requirements.txt
-# or
-conda env create -f environment.yaml
+conda install tensorflow-gpu python-dotenv pynvml sentencepiece huggingface_hub transformers accelerate beautifulsoup4 numpy==1.23.4
 ```
 
 ```bash
@@ -66,6 +43,10 @@ conda install -c conda-forge diffusers
 #### channels
 
 ```bash
+conda config --show channels
+```
+
+```bash
 conda config --append channels conda-forge
 # or
 conda config --add channels conda-forge
@@ -75,6 +56,12 @@ conda config --add channels conda-forge
 conda config --append channels nvidia
 # or
 conda config --add channels nvidia
+```
+
+```bash
+conda config --append channels defaults
+# or
+conda config --add channels defaults
 ```
 
 #### list env
@@ -184,4 +171,21 @@ run script
 
 ```bash
 ./my-env/bin/python <path-to-script>
+```
+
+#### julia: generate project
+
+```julia
+]
+
+pkg > generate MyProject
+```
+
+#### julia: install package
+
+```julia
+using Pkg
+
+Pkg.resolve()
+
 ```
