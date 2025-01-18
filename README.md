@@ -19,6 +19,8 @@ Pkg.resolve()
 
 #### docs
 
+- https://docs.conda.io/projects/conda/en/4.6.0/index.html
+
 - https://docs.julialang.org/en/v1/
 
 - https://www.kaggle.com/datasets/ilknuricke/neurohackinginrimages?resource=download
@@ -90,6 +92,10 @@ conda install -c conda-forge diffusers
 ```
 
 ```bash
+conda install transformers
+```
+
+```bash
 conda install numpy==1.23.4
 ```
 
@@ -111,6 +117,12 @@ conda config --add channels conda-forge
 conda config --append channels nvidia
 # or
 conda config --add channels nvidia
+```
+
+```bash
+conda info --envs
+# or
+conda env list
 ```
 
 #### check GPU version compatible with CUDA version
