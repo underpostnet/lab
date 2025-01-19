@@ -68,7 +68,7 @@ conda config --add channels defaults
 
 ```bash
 # linux
-conda pip install opencv-python
+pip install opencv-python
 # window
 conda install opencv
 ```
