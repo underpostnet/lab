@@ -25,7 +25,7 @@ conda activate cuda_env
 ```
 
 ```bash
-conda install tensorflow-gpu python-dotenv pynvml sentencepiece huggingface_hub transformers accelerate beautifulsoup4 opencv numpy==1.23.4
+conda install tensorflow-gpu python-dotenv pynvml sentencepiece huggingface_hub transformers accelerate beautifulsoup4 opencv matplotlib numpy==1.23.4
 ```
 
 ```bash
@@ -76,6 +76,26 @@ conda env list
 
 ```bash
 nvcc --version
+```
+
+```bash
+sudo add-apt-repository ppa:graphics-drivers/ppa --yes
+```
+
+```bash
+sudo apt install nvidia-driver-470  # or nvidia-driver-495
+```
+
+```bash
+sudo apt install nvidia-driver
+```
+
+```bash
+sudo sh NVIDIA-Linux-x86_64-470.42.01.run --dkms
+```
+
+```bash
+sudo apt-get install bumblebee bumblebee-nvidia primus linux-headers-generic
 ```
 
 ```bash
