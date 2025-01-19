@@ -25,7 +25,7 @@ conda activate cuda_env
 ```
 
 ```bash
-conda install tensorflow-gpu python-dotenv pynvml sentencepiece huggingface_hub transformers accelerate beautifulsoup4 opencv matplotlib numpy==1.23.4
+conda install tensorflow-gpu python-dotenv pynvml sentencepiece huggingface_hub transformers accelerate beautifulsoup4 matplotlib numpy==1.23.4
 ```
 
 ```bash
@@ -62,6 +62,15 @@ conda config --add channels nvidia
 conda config --append channels defaults
 # or
 conda config --add channels defaults
+```
+
+#### install opencv
+
+```bash
+# linux
+conda pip install opencv-python
+# window
+conda install opencv
 ```
 
 #### list env
