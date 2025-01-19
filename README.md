@@ -64,13 +64,13 @@ conda config --append channels defaults
 conda config --add channels defaults
 ```
 
-#### install opencv
+#### install others packages
 
 ```bash
 # linux
-pip install opencv-python
+pip install opencv-python backgroundremover
 # window
-conda install opencv
+conda install opencv rembg
 ```
 
 #### list env
