@@ -25,7 +25,7 @@ conda activate cuda_env
 ```
 
 ```bash
-conda install tensorflow-gpu python-dotenv pynvml sentencepiece huggingface_hub transformers accelerate beautifulsoup4 numpy==1.23.4
+conda install tensorflow-gpu python-dotenv pynvml sentencepiece huggingface_hub transformers accelerate beautifulsoup4 opencv numpy==1.23.4
 ```
 
 ```bash
