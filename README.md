@@ -40,6 +40,12 @@ conda install pytorch torchvision torchaudio pytorch-cuda=11.8 -c pytorch -c nvi
 conda install -c conda-forge diffusers
 ```
 
+#### Disable Conda from initializing automatically on startup in Linux
+
+```bash
+conda config --set auto_activate_base false
+```
+
 #### channels
 
 ```bash
