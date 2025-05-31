@@ -129,6 +129,10 @@ LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/root/.conda/envs/cuda_env/lib
 CUDA_HOME="/root/.conda/envs/cuda_env"
 ```
 
+```python
+os.environ["XLA_FLAGS"] = "--xla_gpu_cuda_data_dir=/root/.conda/envs/cuda_env"
+```
+
 Check GPU:
 
 ```bash
