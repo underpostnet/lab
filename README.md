@@ -117,6 +117,24 @@ sudo apt-get install bumblebee bumblebee-nvidia primus linux-headers-generic
 nvidia-smi ; nvidia-smi --version
 ```
 
+#### RHEL env
+
+Install cuda toolkit 12.x
+
+```bash
+sudo find / -name "libdevice.10.bc" 2>/dev/null
+conda install -c conda-forge tensorflow=2.18.0 cudnn
+XLA_FLAGS=--xla_gpu_cuda_data_dir="/root/.conda/envs/cuda_env/nvvm/libdevice"
+LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/root/.conda/envs/cuda_env/lib
+CUDA_HOME="/root/.conda/envs/cuda_env"
+```
+
+Check GPU:
+
+```bash
+python -c "import tensorflow as tf; print(tf.config.list_physical_devices('GPU'))"
+```
+
 #### export requirements
 
 ```bash
