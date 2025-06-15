@@ -133,7 +133,8 @@ uv sync
 Run dev app:
 
 ```bash
-python backend/app/initial_data.py # load models
+conda install -c conda-forge toml
+python -m app.initial_data # load models
 uv run fastapi dev app/main.py --reload
 ```
 
