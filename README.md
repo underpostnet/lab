@@ -117,6 +117,15 @@ sudo apt-get install bumblebee bumblebee-nvidia primus linux-headers-generic
 nvidia-smi ; nvidia-smi --version
 ```
 
+#### uv env
+
+- https://docs.astral.sh/uv
+
+```bash
+uv python pin 3.12.7
+uv sync
+```
+
 #### RHEL env
 
 Install cuda toolkit 12.x
