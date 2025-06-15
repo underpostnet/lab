@@ -134,6 +134,9 @@ Run dev app:
 
 ```bash
 conda install -c conda-forge toml
+uv pip install -r pyproject.toml
+uv pip install --project
+uv pip install --no-dev --project
 python -m app.initial_data # load models
 uv run fastapi dev app/main.py --reload
 ```
