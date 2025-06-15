@@ -133,6 +133,7 @@ uv sync
 Run dev app:
 
 ```bash
+python backend/app/initial_data.py # load models
 uv run fastapi dev app/main.py --reload
 ```
 
