@@ -121,9 +121,26 @@ nvidia-smi ; nvidia-smi --version
 
 - https://docs.astral.sh/uv
 
+Install options packages:
+
 ```bash
-uv python pin 3.12.7
+uv python pin <fix-python-version-required>
 uv sync
+```
+
+### fastapi env
+
+Run dev app:
+
+```bash
+uv run fastapi dev app/main.py --reload
+```
+
+Run app:
+
+```bash
+fastapi run --reload app/main.py
+uvicorn app.main:app --reload
 ```
 
 #### RHEL env
