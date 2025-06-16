@@ -8,7 +8,7 @@ load_dotenv()
 # ./my-env/bin/pip install -U python-dotenv
 # ./my-env/bin/python ./src/gemini-img3.py
 
-genai.configure(api_key=os.getenv("GOOGLE_API_KEY"))
+genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
 
 imagen = genai.ImageGenerationModel("models/gemini-1.5-flash")
 

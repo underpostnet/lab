@@ -148,6 +148,23 @@ fastapi run --reload app/main.py
 uvicorn app.main:app --reload
 ```
 
+#### langchain env
+
+Langchain docs
+
+- https://api.python.langchain.com/en/latest/langchain_api_reference.html
+
+Manage gemini key
+
+- https://aistudio.google.com/app/apikey
+
+```bash
+conda install google-generativeai
+pip install langchain-google-genai langchain_core langchain
+# or upgrade
+pip install --upgrade langchain langchain-core langchain-google-genai
+```
+
 #### RHEL env
 
 Install cuda toolkit 12.x

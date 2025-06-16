@@ -6,7 +6,7 @@ import os
 load_dotenv()
 
 
-genai.configure(api_key=os.environ["GOOGLE_API_KEY"])
+genai.configure(api_key=os.environ["GEMINI_API_KEY"])
 
 
 def read_text_from_file(file_path):
