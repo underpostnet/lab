@@ -167,6 +167,35 @@ pip install --upgrade langchain langchain-core langchain-google-genai
 
 #### RHEL env
 
+venv usage
+
+```bash
+pip install virtualenv
+virtualenv myenv --python=3
+myenv/bin/activate # windows
+source myenv/bin/activate # linux
+```
+
+pyenv usage
+
+```bash
+sudo yum groupinstall "Development Tools"
+
+sudo yum install \
+  libffi-devel \
+  zlib-devel \
+  bzip2-devel \
+  readline-devel \
+  sqlite-devel \
+  openssl-devel \
+  xz-devel \
+  tk-devel
+
+pyenv install 3.13.3
+pyenv rehash
+pyenv local 3.13.3
+```
+
 Install cuda toolkit 12.x
 
 ```bash
