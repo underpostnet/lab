@@ -113,17 +113,19 @@ class GeminiAgentApp:
                 (
                     "system",
                     "You are a helpful AI assistant. Answer the following questions as best you can.\n"
-                    "You have access to the following tools:\n\n"
+                    "You have access to the following tools:\n"
                     "{tools}\n\n"
-                    "To use a tool, you MUST use the following format:\n\n"
+                    "To use a tool, you MUST use the following format and then STOP. The system will provide the Observation.\n"
                     "Thought: Do I need to use a tool? Yes\n"
                     "Action: The action to take, should be one of [{tool_names}]\n"
-                    "Action Input: The input to the action\n"
-                    "Observation: The result of the action\n\n"
+                    "Action Input: The input to the action\n\n"
+                    "After you provide the Action and Action Input, the system will run the tool. You will then receive an 'Observation:' with the tool's result. "
+                    "Based on this observation, you will continue with a new 'Thought:' and then either another Action or a Final Answer.\n\n"
                     "When you have a response to say to the Human, or if you do not need to use a tool, "
                     "you MUST use the format:\n\n"
                     "Thought: Do I need to use a tool? No\n"
-                    "Final Answer: [your final answer here]",
+                    "Final Answer: [your final answer here]"
+                    "\nReminder: When using a tool, ONLY provide Thought, Action, and Action Input. Wait for the Observation.",
                 ),
                 ("placeholder", "{chat_history}"),
                 ("human", "{input}"),  # Placeholder for the current user input

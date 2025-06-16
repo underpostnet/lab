@@ -18,10 +18,16 @@ class AgentTools:
         For production environments, consider using a safer mathematical expression parser.
         """
         try:
-            result = eval(expression)
+            # Attempt to take only the first line of the expression
+            # in case of malformed multi-line input from LLM.
+            # Also strip whitespace.
+            clean_expression = str(expression).splitlines()[0].strip()
+            if not clean_expression:
+                return "Error: Empty expression provided to calculator."
+            result = eval(clean_expression)
             return str(result)
         except Exception as e:
-            return f"Error performing calculation: {e}"
+            return f"Error performing calculation on '{clean_expression}': {e}"
 
     @staticmethod
     def fake_search(query: str) -> str:
