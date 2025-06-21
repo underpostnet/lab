@@ -38,8 +38,7 @@ conda install -y \
     anaconda::cudatoolkit \
     pytorch::pytorch pytorch::torchvision pytorch::torchaudio pytorch::pytorch-cuda=11.8
 
-echo "Installing remaining application-level packages with Pip..."
-pip install \
+conda install -y \
     python-dotenv \
     pynvml \
     sentencepiece \
@@ -47,11 +46,13 @@ pip install \
     transformers \
     accelerate \
     matplotlib \
-    scipy \
     beautifulsoup4 \
+    scipy \
     websocket-client \
+    opencv-python \
     diffusers \
-    raylib
+    raylib \
+    backgroundremover
 
 echo -e "\n\nEnvironment '${ENV_NAME}' created and packages installed successfully."
 echo "To activate it in a new terminal, first ensure you have run 'conda init <your-shell>' once, restarted your terminal, then run:"
