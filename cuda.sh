@@ -1,5 +1,9 @@
 #!/bin/bash
 
+# Exit immediately if a command exits with a non-zero status.
+# This prevents the script from continuing and printing a success message on failure.
+set -e
+
 # Create the conda environment.
 conda create -y --name cuda_env python=3.9
 
@@ -24,7 +28,7 @@ conda config --append channels conda-forge
 # packages are sourced correctly.
 conda install -y tensorflow-gpu python-dotenv pynvml sentencepiece huggingface_hub transformers accelerate beautifulsoup4 matplotlib keras numpy==1.23.4 \
     anaconda::cudatoolkit \
-    pytorch::pytorch pytorch::torchvision pytorch::torchaudio nvidia::pytorch-cuda=11.8 \
+    pytorch::pytorch pytorch::torchvision pytorch::torchaudio pytorch::pytorch-cuda=11.8 \
     conda-forge::diffusers
 
 echo -e "\n\nEnvironment 'cuda_env' created and packages installed successfully."
