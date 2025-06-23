@@ -43,9 +43,4 @@ RUN pip3 install --no-cache-dir tensorflow[and-cuda]
 WORKDIR /opt/spark/work-dir
 
 # Copy the Python script into the working directory
-# IMPORTANT: Ensure 'check_gpu.py' is in the SAME directory as this Dockerfile
 COPY main_check_gpu.py .
-
-# Define an entrypoint for the container (optional, but good practice)
-# This will default to bash if nothing else is specified in the SparkApplication mainApplicationFile
-ENTRYPOINT ["/bin/bash"]
