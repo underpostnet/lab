@@ -44,3 +44,9 @@ WORKDIR /opt/spark/work-dir
 
 # Copy the Python script into the working directory
 COPY main_check_gpu.py .
+
+# Set spark-submit as the explicit entrypoint for the container.
+# The Spark Operator will pass its arguments (like 'driver', '--properties-file', etc.)
+# directly to spark-submit. This will bypass the `exec: driver: not found` error
+# that originated from `nvidia_entrypoint.sh` by ensuring spark-submit is the primary command.
+ENTRYPOINT ["/opt/spark/bin/spark-submit"]
