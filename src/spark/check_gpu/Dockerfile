@@ -44,3 +44,12 @@ WORKDIR /opt/spark/work-dir
 
 # Copy the Python script into the working directory
 COPY main_check_gpu.py .
+
+# Add a custom entrypoint script
+COPY entrypoint.sh /usr/local/bin/entrypoint.sh
+RUN chmod +x /usr/local/bin/entrypoint.sh
+
+# Set the custom entrypoint
+# This script will ensure the NVIDIA environment is set up and then
+# correctly pass Spark Operator's arguments to spark-submit.
+ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
