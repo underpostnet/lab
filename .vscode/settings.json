@@ -109,5 +109,11 @@
   },
   "[shellscript]": {
     "editor.defaultFormatter": "foxundermoon.shell-format"
+  },
+  "files.watcherExclude": {
+    "**/target": true
+  },
+  "[scala]": {
+    "editor.defaultFormatter": "scalameta.metals"
   }
 }
