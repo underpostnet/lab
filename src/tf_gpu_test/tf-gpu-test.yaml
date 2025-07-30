@@ -1,0 +1,213 @@
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: spark-operator-spark # Name of the ServiceAccount used by SparkApplications
+  namespace: default # Ensure this matches the namespace where your SparkApplications run
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole # Use ClusterRole for broader permissions across namespaces, if needed
+metadata:
+  name: spark-operator-spark-role # Name of the ClusterRole
+rules:
+  - apiGroups: [""] # "" indicates the core API group
+    resources:
+      - pods # Required for creating and managing driver/executor pods
+      - services # Required for the driver service
+      - configmaps # Required if Spark applications read configmaps
+    verbs:
+      - get
+      - list
+      - watch
+      - create
+      - delete
+      - update
+      - patch # Patch is useful for updates to pod/service status
+  - apiGroups: ["extensions", "apps"] # For deployments, statefulsets, etc., if Spark interacts with them
+    resources:
+      - deployments
+      - replicasets
+      - statefulsets
+    verbs:
+      - get
+      - list
+      - watch
+  # Add specific rules for SparkApplications if the operator needs to manage them directly
+  - apiGroups: ["sparkoperator.k8s.io"]
+    resources:
+      - sparkapplications
+      - scheduledsparkapplications
+    verbs:
+      - get
+      - list
+      - watch
+      - create
+      - delete
+      - update
+      - patch
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding # Binds the ServiceAccount to the ClusterRole
+metadata:
+  name: spark-operator-spark-binding # Name of the ClusterRoleBinding
+subjects:
+  - kind: ServiceAccount
+    name: spark-operator-spark # Must match the name of the ServiceAccount defined above
+    namespace: default # Must match the namespace of the ServiceAccount
+roleRef:
+  kind: ClusterRole
+  name: spark-operator-spark-role # Must match the name of the ClusterRole defined above
+  apiGroup: rbac.authorization.k8s.io
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: spark-executor-pod-config # Name of the ConfigMap for the executor pod spec
+  namespace: default # Ensure this matches your SparkApplication namespace
+data:
+  pod-spec-fragment: | # Key under which the pod spec fragment is stored
+    spec:
+      containers:
+      - name: spark-kubernetes-executor
+        resources:
+          requests:
+            ephemeral-storage: "1Gi" # Request 1Gi of ephemeral storage
+          limits:
+            ephemeral-storage: "20Gi" # Limit ephemeral storage to 20Gi
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: spark-driver-pod-config # Name of the ConfigMap for the driver pod spec
+  namespace: default # Ensure this matches your SparkApplication namespace
+data:
+  pod-spec-fragment: | # Key under which the pod spec fragment is stored
+    spec:
+      containers:
+        - name: spark-kubernetes-driver
+          resources:
+            requests:
+              ephemeral-storage: "1Gi" # Request 1Gi of ephemeral storage
+            limits:
+              ephemeral-storage: "20Gi" # Limit ephemeral storage to 20Gi
+
+---
+# This manifest defines a SparkApplication resource for the Kubernetes Operator.
+apiVersion: sparkoperator.k8s.io/v1beta2
+kind: SparkApplication
+metadata:
+  # The name of your application instance in Kubernetes.
+  # This should be unique within the namespace.
+  name: spark-tf-runner-test
+  # The namespace where the Spark Operator is running and where this application will be deployed.
+  namespace: default
+spec:
+  # The type of application. Since gpu.py is a Python script, set this to Python.
+  type: Python
+  # Specify the Python version required by your application.
+  pythonVersion: "3"
+  # The mode can be 'cluster' or 'client'. 'cluster' is standard for production and recommended.
+  mode: cluster
+  # The Spark version. This MUST match the version in your Docker image.
+  sparkVersion: 3.5.5
+  # The main Python application file.
+  # 'local://' indicates the file is already present within the Docker image at the specified path.
+  mainApplicationFile: local:///home/dd/lab/src/tf_gpu_test/main_tf_gpu_test.py
+
+  # IMPORTANT: Replace this with the actual name of your Docker image.
+  # This image must contain Spark (version 3.5.5), Python 3, TensorFlow,
+  # and the necessary CUDA/cuDNN libraries for GPU support.
+  # Example: your-repo/spark-tensorflow-gpu:3.5.5-cuda
+  image: localhost/tf_gpu_test:0.0.11
+  # Image pull policy. Use IfNotPresent for cached images, Always for fresh pulls, Never for local.
+  imagePullPolicy: IfNotPresent
+
+  # Restart policy for the Spark driver pod.
+  # 'Never' is suitable for tests, as a failure should not trigger a restart.
+  restartPolicy:
+    type: Never
+
+  # Configuration for the Spark driver pod.
+  driver:
+    cores: 1 # Number of CPU cores allocated to the driver.
+    coreLimit: "1000m" # CPU limit for the driver (1 CPU).
+    memory: "2G" # Memory allocated to the driver (e.g., 2 gigabytes).
+    labels:
+      version: 3.5.5
+      app-role: tf-test-driver
+    # A service account with permissions to create and manage executor pods is required.
+    # Ensure this service account exists in your cluster and has the necessary RBAC roles.
+    serviceAccount: spark-operator-spark # Use the service account for Spark Operator
+
+    # Request a GPU for the driver if your driver code also utilizes GPUs (e.g., for model loading).
+    # If the driver does not need GPU, you can remove this section.
+    gpu:
+      name: "nvidia.com/gpu" # The resource name for NVIDIA GPUs
+      quantity: 1 # Request 1 GPU for the driver
+
+    # Add tolerations to allow scheduling on control-plane nodes if necessary (common in development clusters like Kind).
+    tolerations:
+      - key: "node-role.kubernetes.io/control-plane"
+        operator: "Exists"
+        effect: "NoSchedule"
+      - key: "node-role.kubernetes.io/master" # Older master taint, good to include for compatibility
+        operator: "Exists"
+        effect: "NoSchedule"
+
+  # Configuration for the Spark executor pods.
+  executor:
+    cores: 1 # Number of CPU cores allocated to each executor.
+    coreLimit: "1000m" # CPU limit for each executor (1 CPU).
+    instances: 1 # Number of executor instances. Adjust based on your workload.
+    memory: "4G" # Memory allocated to each executor.
+    labels:
+      version: 3.5.5
+      app-role: tf-test-executor
+    # Request a GPU for each executor, essential for TensorFlow GPU operations.
+    gpu:
+      name: "nvidia.com/gpu" # The resource name for NVIDIA GPUs
+      quantity: 1 # Request 1 GPU for each executor
+
+    # Node affinity to schedule executors on nodes with GPU capabilities.
+    # This label is commonly applied by NVIDIA GPU operator or Node Feature Discovery (NFD).
+    nodeSelector:
+      "nvidia.com/gpu.present": "true"
+
+    # Add tolerations for executors as well, if they might land on tainted nodes.
+    tolerations:
+      - key: "node-role.kubernetes.io/control-plane"
+        operator: "Exists"
+        effect: "NoSchedule"
+      - key: "node-role.kubernetes.io/master"
+        operator: "Exists"
+        effect: "NoSchedule"
+
+  # Add Spark configuration properties.
+  sparkConf:
+    # GPU allocation and discovery settings for both driver and executors.
+    # These properties tell Spark how to discover and allocate GPU resources.
+    spark.executor.resource.gpu.vendor: "nvidia.com"
+    spark.executor.resource.gpu.discoveryScript: "/opt/spark/scripts/getGpusResources.sh"
+    spark.executor.resource.gpu.amount: "1" # Each executor requests 1 GPU
+
+    spark.kubernetes.driver.resource.gpu.vendor: "nvidia.com"
+    spark.kubernetes.driver.resource.gpu.amount: "1" # Driver requests 1 GPU
+    spark.kubernetes.driver.resource.gpu.discoveryScript: "/opt/spark/scripts/getGpusResources.sh"
+
+    spark.kubernetes.executor.resource.gpu.vendor: "nvidia.com"
+    spark.kubernetes.executor.resource.gpu.discoveryScript: "/opt/spark/scripts/getGpusResources.sh"
+
+    # Ephemeral storage configuration. These properties are correctly handled by Spark Operator
+    # to set ephemeral storage requests and limits on the pods.
+    spark.kubernetes.driver.request.ephemeralStorage: "1Gi"
+    spark.kubernetes.driver.limit.ephemeralStorage: "20Gi"
+    spark.kubernetes.executor.request.ephemeralStorage: "1Gi"
+    spark.kubernetes.executor.limit.ephemeralStorage: "20Gi"
+
+    # Reference the ConfigMaps containing the pod spec fragments.
+    # The Spark Operator will merge these fragments with the generated pod spec.
+    spark.kubernetes.driver.pod.configMapRef: "spark-driver-pod-config"
+    spark.kubernetes.executor.pod.configMapRef: "spark-executor-pod-config"
