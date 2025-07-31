@@ -1,0 +1,73 @@
+apiVersion: sparkoperator.k8s.io/v1beta2
+kind: SparkApplication
+metadata:
+  name: tf_gpu_test
+  namespace: default
+spec:
+  type: Python
+  mode: cluster
+  sparkVersion: "3.5.5"
+
+  # ----------------------------------------------------------------------------
+  # Use the official TensorFlow GPU image; this includes TF, CUDA, cuDNN, etc.
+  # ----------------------------------------------------------------------------
+  image: localhost/tf_gpu_test:0.0.11
+  imagePullPolicy: Always
+
+  # ----------------------------------------------------------------------------
+  # Where your Python entrypoint lives inside the image
+  # ----------------------------------------------------------------------------
+  mainApplicationFile: local:///home/main_tf_gpu_test.py
+
+  # ----------------------------------------------------------------------------
+  # Spark GPU scheduling
+  # ----------------------------------------------------------------------------
+  sparkConf:
+    # Ask Spark tasks & executors for one GPU each
+    spark.task.resource.gpu.amount: "1"
+    spark.executor.resource.gpu.amount: "1"
+    spark.executor.resource.gpu.vendor: "nvidia.com"
+    spark.executor.resource.gpu.discoveryScript: "/opt/mapr/spark/spark-3.5.5/examples/src/main/scripts/getGpusResources.sh"
+
+  # imagePullSecrets: # Removed as it might not be supported in this v1beta2 version
+  #   - name: imagepull
+
+  # ----------------------------------------------------------------------------
+  # Driver (no GPU) – pass in your XLA_FLAGS so the script sees it
+  # ----------------------------------------------------------------------------
+  driver:
+    cores: 1
+    coreLimit: "1000m"
+    memory: "1024m"
+    labels:
+      version: "3.5.5"
+    env:
+      - name: XLA_FLAGS
+        value: "--xla_gpu_cuda_data_dir=/root/.conda/envs/cuda_env"
+    # volumeMounts:
+    #   - name: shared-volume
+    #     mountPath: /mounts/shared-volume
+
+  # ----------------------------------------------------------------------------
+  # Executors (with GPU)
+  # ----------------------------------------------------------------------------
+  executor:
+    cores: 1
+    coreLimit: "1000m"
+    instances: 1
+    memory: "2G"
+    labels:
+      version: "3.5.5"
+    # resources: # Removed as it might not be supported in this v1beta2 version
+    #   limits:
+    #     nvidia.com/gpu: 1
+  #   volumeMounts:
+  #     - name: shared-volume
+  #       mountPath: /mounts/shared-volume
+  # volumes:
+  #   - name: shared-volume
+  #     persistentVolumeClaim:
+  #       claimName: kubeflow-shared-pvc
+
+  restartPolicy:
+    type: Never
